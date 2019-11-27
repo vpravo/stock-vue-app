@@ -7,8 +7,11 @@ const mutations = {
     "BUY_STOCK" (state, {stockId, quantity, stockPrice }) {
         const record = state.stocks.find(el => el.id === stockId)
         if (record) {
+            console.log('BUY_STOCK - позиция уже была в портфеле', record)
             record.quantity += quantity
         }else{
+            id: stockId,
+            console.log('BUY_STOCK - новая позиция', 'stockId ' + stockId)
             state.stocks.push({
                 id: stockId,
                 quantity
