@@ -1,11 +1,14 @@
 import Vue from 'vue'
 import VueRouter from "vue-router"
 import store from "./store/store"
-
+import VueResource from "vue-resource"
 import App from './App.vue'
 import {routes} from "./routes"
 
 Vue.use(VueRouter)
+Vue.use(VueResource)
+Vue.http.options.root = "https://stock-vue-app-de4ab.firebaseio.com/"
+
 Vue.filter("currency", (value) => {
   return "$" + value.toLocaleString()
 })
@@ -17,6 +20,6 @@ const router = new VueRouter({
 new Vue({
   el: '#app',
   router,
-  store,
+  store, 
   render: h => h(App)
 })

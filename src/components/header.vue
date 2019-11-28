@@ -25,8 +25,8 @@
                             aria-expanded="false"
                             >Save and load<span  class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Save data</a></li>
-                            <li><a href="#">Load data</a></li>
+                            <li><a href="#" @click="saveData">Save data</a></li>
+                            <li><a href="#" @click="loadData">Load data</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -37,6 +37,7 @@
 
 <script>
 import {mapActions} from "vuex"
+import fb from "../firebase.js"
 export default {
     data(){
         return {
@@ -49,11 +50,34 @@ export default {
         }
     },
     methods: {
-        ...mapActions([
-            'randomizeStocks'
-        ]),
+        ...mapActions({
+            randomizeStocks: 'randomizeStocks',
+            fetchData: 'loadData'
+          }
+        ),
         endDay(){
             this.randomizeStocks()
+        },
+        saveData(){
+            const data = {
+                funds: this.$store.getters.funds,
+                stockPortfolio: this.$store.getters.stockPortfolio,
+                stocks: this.$store.getters.stocks
+            }
+            this.$http.put("data.json", data)
+             
+            // fb.collection('data.json')
+            //   .add(data)
+            //   .catch(err => {console.log(err)})
+
+        },
+        loadData(){
+                // fb.collection("stocks").get().then((querySnapshot) => {
+                //     querySnapshot.forEach((doc) => {
+                //         console.log(doc.data());
+                //     });
+                // });
+                this.fetchData()
         }
     }
 }
